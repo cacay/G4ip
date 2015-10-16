@@ -1,19 +1,19 @@
 {-|
-Module      : Tester
+Module      : G4ip.Tester
 Description : Testing module for 'decide'
 Maintainer  : Josh Acay <cacay@cmu.edu>
 Stability   : experimental
 -}
-module Tester (Test, tests, check, runTests) where
+module G4ip.Tester (Test, tests, check, runTests) where
 
 import Control.Monad
 import Data.Tuple (uncurry)
 
-import Decider (decide)
-import Proposition (Prop (Atom, T, F), (/\), (\/), (==>), (<==), (<=>), neg)
+import G4ip.Decider (decide)
+import G4ip.Proposition (Prop (Atom, T, F), (/\), (\/), (==>), (<==), (<=>), neg)
 
 
--- | a test is a proposition paired with whether or not it is provable
+-- | A test is a proposition paired with whether or not it is provable
 type Test = (Prop, Bool)
 
 
@@ -113,26 +113,24 @@ tests = [
 
 -- * Printing
 
-ok :: String
-ok = "\027[1;30m[\027[32m OK! \027[30m]\027[m"
-
-
-wrong :: String
-wrong = "\027[1;30m[\027[31m WRONG \027[30m]\027[m"
-
-
--- Result is 'True' if the test passes 'False' otherwise
+-- | Result is 'True' if the test passes 'False' otherwise
 check :: Prop -> Bool -> IO Bool
 check p expected = do
   putStr $ "Checking " ++ show p ++ " " ++ expectation ++ "..."
   putStrLn (if correct then ok else wrong)
   return correct
-  where expectation = if expected then "provable" else "unprovable"
-        correct = decide p == expected
+  where
+    expectation = if expected then "provable" else "unprovable"
+    correct = decide p == expected
+
+    ok :: String
+    ok = "\027[1;30m[\027[32m OK! \027[30m]\027[m"
+
+    wrong :: String
+    wrong = "\027[1;30m[\027[31m WRONG \027[30m]\027[m"
 
 
-
--- Run the given tests and report the number of errors
+-- | Run the given tests and report the number of errors
 runTests :: [Test] -> IO Int
 runTests tests = do
   results <- mapM (uncurry check) tests

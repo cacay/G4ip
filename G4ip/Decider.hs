@@ -1,16 +1,21 @@
 {-|
-Module      : Decider
+Module      : G4ip.Decider
 Description : Decide if a proposition is provable
 Maintainer  : Josh Acay <cacay@cmu.edu>
 Stability   : experimental
 -}
-module Decider (decide) where
+module G4ip.Decider (decide) where
 
 import Control.Arrow (second)
 import Data.List (inits, tails)
 import Data.Tuple (uncurry)
 
-import Proposition (Prop (..))
+import G4ip.Proposition (Prop (..))
+
+
+-- | Decide if a proposition has a proof
+decide :: Prop -> Bool
+decide = right ([], [])
 
 
 -- (invertible propositions, non-invertible propositions)
@@ -52,7 +57,7 @@ right ([], other) c = left other c
 
 -- Non-invertible decisions. The invertible assumptions should be empty.
 left :: [Prop] -> Prop -> Bool
-left other c = or $ map (flip elim $ c) (pulls other)
+left other c = any (`elim` c) (pulls other)
 
 
 -- Reduce one non-invertible assumption and continue proof
@@ -65,7 +70,6 @@ elim (Imp (Imp d e) b, other) c =
   right (add d $ add (Imp e b) ([], other)) e && right (add b ([], other)) c
 
 
-
 -- | Pull one element out for all elements. For example,
 --
 -- > pulls "abc" == [('a',"bc"),('b',"ac"),('c',"ab")]
@@ -74,7 +78,3 @@ pulls xs = take (length xs) $ zipWith (second . (++)) (inits xs) breakdown
   where pull (x : xs) = (x, xs)
         breakdown = map pull (tails xs)
 
-
-
-decide :: Prop -> Bool
-decide = right ([], [])

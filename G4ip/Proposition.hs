@@ -1,10 +1,10 @@
 {-|
-Module      : Proposition
+Module      : G4ip.Proposition
 Description : Representation of propositions
 Maintainer  : Josh Acay <cacay@cmu.edu>
 Stability   : experimental
 -}
-module Proposition (
+module G4ip.Proposition (
     Prop (..)
   , (/\)
   , (\/)
@@ -31,19 +31,19 @@ infixr 0 <=>
 
 
 (/\) :: Prop -> Prop -> Prop
-a /\ b = And a b
+(/\) = And
 
 
 (\/) :: Prop -> Prop -> Prop
-a \/ b = Or a b
+(\/) = Or
 
 
 (==>) :: Prop -> Prop -> Prop
-a ==> b = Imp a b
+(==>) = Imp
 
 
 (<==) :: Prop -> Prop -> Prop
-a <== b = Imp b a
+(<==) = flip Imp
 
 
 (<=>) :: Prop -> Prop -> Prop
@@ -68,3 +68,4 @@ instance Show Prop where
       showAtom T = "T"
       showAtom F = "F"
       showAtom p = "(" ++ showImp p ++ ")"
+
