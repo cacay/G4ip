@@ -2,8 +2,10 @@ all: build
 
 
 build:
-	ghc -o g4ip -O --make Main
+	cabal build
 
+test:
+	cabal test
 
 clean:
-	rm *.o *.hi g4ip
+	cabal clean
