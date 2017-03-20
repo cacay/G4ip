@@ -28,4 +28,4 @@ which prints `True` as expected (`$` if for associativity, you can use parenthes
 
 ## Contact
 
-Email me at cacay@cmu.edu for any questions.
+Email me at coskuacay@gmail.com for any questions.
