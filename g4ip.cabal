@@ -23,7 +23,7 @@ library
   exposed-modules:      G4ip.Decider
                         G4ip.Proposition
 
-  build-depends:        base >= 4.6
+  build-depends:        base >= 4.6 && < 4.7
 
 
 test-suite test-g4ip
@@ -33,7 +33,7 @@ test-suite test-g4ip
   type:                 exitcode-stdio-1.0
   main-is:              G4ip/TestMain.hs
 
-  build-depends:        base >= 4.6,
+  build-depends:        base >= 4.6 && < 4.7,
                         g4ip
 
   other-modules:        G4ip.Tester
